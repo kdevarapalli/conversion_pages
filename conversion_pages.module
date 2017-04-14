@@ -1,0 +1,65 @@
+<?php
+/**
+ * Implements hook_node_info()
+ */
+function conversion_pages_node_info() {
+    return array(
+        'conversion_pages' => array(
+            'name' => t('Conversion Pages'),
+            'base' => 'conversion_pages',
+            'description' => t('Conversion Pages'),
+            'has_title' => TRUE,
+            'title_label' => t('Title')
+         )
+    );
+}
+
+/**
+ * Implement hook_form()
+ */
+function conversion_pages_form($node, $form_state) {
+    return node_content_form($node, $form_state);
+}
+
+/**
+ * Implements hook_menu().
+ */
+function conversion_pages_menu() {
+  $items = array();
+
+  $items['admin/config/conversion_pages'] = array(
+    'title' => 'Conversion Pages',
+    'description' => 'Add Conversion Pages',
+    'page callback' => 'conversion_pages_callback',
+    'access arguments' => array('manage conversion pages settings'),
+    'file' => 'conversion_pages.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Defines Conversion Pages form.
+ */
+function conversion_pages_callback() {
+  $form = array();
+
+  $form['conversion_pages_details'] = array(
+    '#title' => t('Add Titles and Body with a place holder to create a set of Conversion Pages')
+    );
+  return system_settings_form($form);
+}
+
+/**
+ * Implements hook_permission().
+ */
+function conversion_pages_permission() {
+  return array(
+    'create conversion pages' => array(
+      'title' => t('Create Conversion Pages'),
+    ),
+    'manage conversion pages' => array(
+      'title' => t('Manage Conversion Pages'),
+    )
+  );
+}

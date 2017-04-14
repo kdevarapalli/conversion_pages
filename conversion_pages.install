@@ -1,0 +1,25 @@
+<?php
+/**
+ * Implements hook_install().
+ */
+function conversion_pages_install() {
+    node_types_rebuild();
+    $types = node_type_get_types();
+    node_add_body_field($types['conversion_pages']);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function conversion_pages_uninstall() {
+    $ournewtype = 'conversion_pages';
+    $sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
+    $result = db_query($sql, array(':type' => $ournewtype));
+    $nodeids = array();
+    foreach ($result as $row) {
+        $nodeids[] = $row->nid;
+    }
+    node_delete_multiple($nodeids);
+    node_type_delete($ournewtype);
+}
+

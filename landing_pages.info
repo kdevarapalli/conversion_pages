@@ -1,4 +1,0 @@
-name = Landing Pages
-description = Provides Landing Pages which bypass the site theme
-package = Custom
-core = 7.x
